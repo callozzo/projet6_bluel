@@ -136,14 +136,17 @@ li:hover {
 	justify-content: center;
 	margin: 0 183px 0 182px;
 }
-#categorie h2 {
+#categorie button {
+	font-family: 'Syne';
 	font-size: 16px;
 	border: 1px solid #1D6154;
 	border-radius: 60px;
 	padding: 9px;
-	margin: 0 5px 50px 5px;	
+	margin: 0 5px 50px 5px;
+	color: #1D6154;
+	background-color: #FFFEF8;
 }
-#categorie h2:hover {
+#categorie button:active {
 	background-color: #1D6154;
 	color: #FFFFFF;
 }
@@ -158,7 +161,13 @@ li:hover {
 
 .gallery img {
 	width: 100%;
+}
 
+.gallery figcaption {
+	color: #3D3D3D;
+	font-family: Work Sans;
+	font-size: 13px;
+	font-weight: 400;
 }
 #contact {
 	width: 50%;
