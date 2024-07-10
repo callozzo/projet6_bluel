@@ -11,8 +11,8 @@ async function project(url) {
     }
 }
 
-let img = 'http://localhost:5678/api/works'
-let categories = 'http://localhost:5678/api/categories'
+let imgUrl = 'http://localhost:5678/api/works'
+let categorie = 'http://localhost:5678/api/categories'
 
 async function fetchData(urlFetchData) {
     const data = await project(urlFetchData);
@@ -20,11 +20,15 @@ async function fetchData(urlFetchData) {
     return data;
 }
 
+const imagesData = await fetchData(imgUrl);
+
+console.log(imagesData);
+
 const parentElement = document.querySelector(".gallery");
 
 async function retrieveData() {
     try {
-        const data = await fetchData(img);
+        const data = await fetchData(imgUrl);
         let array = data;
         console.log(array);
         for( i = 0; i < array.length; i++) {
