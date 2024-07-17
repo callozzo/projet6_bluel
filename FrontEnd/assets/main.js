@@ -5,6 +5,8 @@ let categorieUrl = 'http://localhost:5678/api/categories';
 // Sélection de l'élément parent dans le DOM
 const parentElement = document.querySelector(".gallery");
 
+let elementArray = [];
+
 // Fonction pour récupérer les données à partir d'une URL
 async function fetchData(url) {
     try {
@@ -29,9 +31,9 @@ async function getCategories() {
 }
 
 // Fonction pour récupérer les données et créer les éléments du DOM
-async function retrieveData() {
+async function retrieveData(e) {
     try {
-        const data = await getImages();
+        const data = await e;
         for(let element of data) {
             const figure = document.createElement("figure");
             parentElement.appendChild(figure);
@@ -43,12 +45,15 @@ async function retrieveData() {
 
             const textApi = document.createElement("figcaption");
             textApi.innerHTML = element.title;
-            figure.appendChild(textApi); 
-        }        
+            figure.appendChild(textApi);
+
+            elementArray.push({id: element.id, imageUrl: element.imageUrl, title: element.title, categoryid: element.category.id});
+        }  
     } catch (error) {
         console.error("Erreur lors de la création des éléments du DOM :", error);
     }
+    console.log(elementArray);
 }
 
 // Appel de la fonction principale
-retrieveData();
+retrieveData(getImages());
