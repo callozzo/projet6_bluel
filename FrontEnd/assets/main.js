@@ -11,8 +11,8 @@ let elementArray = [];
 async function fetchData(url) {
     try {
         const response = await fetch(url);
-        if (!response.ok){
-            throw new Error(`status error : ${response.status}`)
+        if (!response.ok) {
+            throw new Error(`Erreur de statut : ${response.status}`);
         }
         return await response.json();
     } catch (error) {
@@ -25,20 +25,16 @@ async function getImages() {
     return await fetchData(imgUrl);
 }
 
-//Fonction pour récupérer les catégories
-async function getCategories() {
-    return await fetchData(categorieUrl);
-}
-
 // Fonction pour récupérer les données et créer les éléments du DOM
-async function retrieveData(e) {
+async function retrieveData(data) {
+    // Vider l'élément parent avant d'ajouter les nouveaux éléments
     while (parentElement.firstChild) {
         parentElement.removeChild(parentElement.firstChild);
     }
+
     try {
-        const data = await e;
-        console.log("Données récupérées :", data);
-        for(let element of data) {
+        console.log("Données traitées :", data);
+        data.forEach(element => {
             if (element && element.id && element.imageUrl && element.title && element.categoryId) {
                 const figure = document.createElement("figure");
                 parentElement.appendChild(figure);
@@ -52,22 +48,21 @@ async function retrieveData(e) {
                 textApi.innerHTML = element.title;
                 figure.appendChild(textApi);
 
-                elementArray.push({
-                    id: element.id, 
-                    imageUrl: element.imageUrl, 
-                    title: element.title, 
-                    categoryid: element.categoryId,
-                    categoryname: element.categoryName
-                });
+                console.log("Élément ajouté au DOM :", element);
             } else {
                 console.warn("Élément manquant de propriétés nécessaires :", element);
             }
-        }  
+        });
     } catch (error) {
         console.error("Erreur lors de la création des éléments du DOM :", error);
     }
-    console.log("Tableau des éléments :", elementArray);
 }
 
-// Appel de la fonction principale
-retrieveData(getImages());
+// Appel de la fonction principale pour récupérer les images et les stocker dans elementArray
+async function imageBase() {
+    const images = await getImages();
+    elementArray = images; // Stocker les données récupérées dans elementArray
+    retrieveData(images); // Afficher toutes les images quand on arrive sur la page
+}
+
+imageBase();
