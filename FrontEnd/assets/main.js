@@ -32,27 +32,41 @@ async function getCategories() {
 
 // Fonction pour récupérer les données et créer les éléments du DOM
 async function retrieveData(e) {
+    while (parentElement.firstChild) {
+        parentElement.removeChild(parentElement.firstChild);
+    }
     try {
         const data = await e;
+        console.log("Données récupérées :", data);
         for(let element of data) {
-            const figure = document.createElement("figure");
-            parentElement.appendChild(figure);
-            figure.id = element.id;
+            if (element && element.id && element.imageUrl && element.title && element.categoryId) {
+                const figure = document.createElement("figure");
+                parentElement.appendChild(figure);
+                figure.id = element.id;
 
-            const imageApi = document.createElement("img");
-            imageApi.src = element.imageUrl;
-            figure.appendChild(imageApi);
+                const imageApi = document.createElement("img");
+                imageApi.src = element.imageUrl;
+                figure.appendChild(imageApi);
 
-            const textApi = document.createElement("figcaption");
-            textApi.innerHTML = element.title;
-            figure.appendChild(textApi);
+                const textApi = document.createElement("figcaption");
+                textApi.innerHTML = element.title;
+                figure.appendChild(textApi);
 
-            elementArray.push({id: element.id, imageUrl: element.imageUrl, title: element.title, categoryid: element.category.id});
+                elementArray.push({
+                    id: element.id, 
+                    imageUrl: element.imageUrl, 
+                    title: element.title, 
+                    categoryid: element.categoryId,
+                    categoryname: element.categoryName
+                });
+            } else {
+                console.warn("Élément manquant de propriétés nécessaires :", element);
+            }
         }  
     } catch (error) {
         console.error("Erreur lors de la création des éléments du DOM :", error);
     }
-    console.log(elementArray);
+    console.log("Tableau des éléments :", elementArray);
 }
 
 // Appel de la fonction principale

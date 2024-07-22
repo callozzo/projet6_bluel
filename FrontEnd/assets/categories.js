@@ -11,7 +11,7 @@ async function retrieveCategory() {
         const categories = [];
         for(let i = 0; i < data.length; i++) {
             const element = data[i];
-            categories.push(element.category.id);           
+            categories.push(element.categoryId);           
         }
         return categories;
     } catch (error) {
@@ -36,33 +36,28 @@ async function categories() {
     }
 }
 
-let elementArrayCopy = [];
-
 // Fonction pour savoir si les deux Id des API coïncident
 async function filtres(value) { 
-    
-    const categoryIds = await categories();
-    const imageCategoryIds = await retrieveCategory();
-
     while (parentElement.firstChild) {
         parentElement.removeChild(parentElement.firstChild);
     }
+    try { 
+        const categoryIds = await categories();
+        const imageCategoryIds = await retrieveCategory();
 
-    console.log("Category IDs:", categoryIds);
-    console.log("Image Category IDs:", imageCategoryIds);
-    
-    let newArray = [];
-    elementArrayCopy = elementArray.filter((element) => element.categoryid === value || value === null);
-    retrieveData(elementArrayCopy);
-    console.log(elementArrayCopy);
-
-    for(let i = 0; i < imageCategoryIds.length; i++) {
-        newArray = imageCategoryIds.filter(id => categoryIds.includes(id) && id === value);
-        return newArray;
-    }    
+        console.log("Category IDs:", categoryIds);
+        console.log("Image Category IDs:", imageCategoryIds);
+        
+        const filtreElement = elementArray.filter(element => element.categoryId === value || value === null);
+        console.log("Éléments filtrés :", filtreElement);
+        retrieveData(Promise.resolve(filtreElement));
+    } catch (error) {
+        console.error("Erreur lors du filtrage des éléments :", error);
+    }
 }
 
-boutonTous.addEventListener('click', () => filtres(1,2,3));
+// Ajout des écouteurs d'événements pour les boutons de filtre
+boutonTous.addEventListener('click', () => retrieveData(getImages()));
 boutonObjets.addEventListener('click', () => filtres(1));
 boutonApparts.addEventListener('click', () => filtres(2));
 boutonHotels.addEventListener('click', () => filtres(3));
