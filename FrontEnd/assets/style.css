@@ -192,9 +192,44 @@ main {
 	border-radius: 10px;
 	width: 630px;
 	height: 688px;
+	margin: 0;
+	padding: 30px;
 	background-color: #ffffff;
 }
-
+.modalBox i {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 26px;
+	padding-right: 30px;
+	width: 100%;
+	height: 24px;
+}
+.modalBox h2 {
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	margin-top: 10px;
+	margin-bottom: 46px;
+	color: black;
+}
+.galleryModal {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 29px 9px;
+	padding-left: 75px;
+	padding-right: 75px;
+	width: 470px;
+	height: 433px;
+	border-bottom: 1px;
+}
+.modalBox img {
+	display: flex;
+	flex-direction: column;
+	height: 102px;
+	width: 76px;
+}
 #categorie {
 	display: flex;
 	justify-content: center;
