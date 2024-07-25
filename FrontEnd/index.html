@@ -7,20 +7,27 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li><a href="login.html">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
+	<div id="editionMode">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<p>mode édition</p>
+	</div>
+	<div id="headerBase">
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
+			<ul>
+				<li>projets</li>
+				<li>contact</li>
+				<li><a href="login.html">login</a></li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</div>
 </header>
 <main>
 	<section id="introduction">
@@ -35,7 +42,18 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div id="project">
+			<h2>Mes Projets</h2>
+			<a href="#modal1" class="modal-button">
+				<i class="fa-regular fa-pen-to-square"></i>
+				<p>modifier</p>
+			</a>
+			<aside id="modal1" class="modal">
+				<div class="modalBox">
+					<p>erujghbnamozhfpiauzhbf</p>
+				</div>
+			</aside>
+		</div>
 		<div id="categorie">
 			<button id="tous">Tous</button>
 			<button id="objets">Objets</button>
@@ -69,5 +87,6 @@
 </footer>
 <script src="assets\main.js"></script>
 <script src="assets/categories.js"></script>
+<script src="assets/modal.js"></script>
 </body>
 </html>
