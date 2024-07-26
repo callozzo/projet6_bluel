@@ -29,7 +29,10 @@ async function retrieveDataCopy(data) {
                 const imageApi = document.createElement("img");
                 imageApi.src = element.imageUrl;
                 figure.appendChild(imageApi);
-                imageApi.appendChild(trashCan);
+
+                const trashIcon = document.createElement("i");
+                trashIcon.className = 'fa-solid fa-trash-can';
+                figure.appendChild(trashIcon);
 
                 console.log("Élément ajouté au DOM :", element);
             } else {
