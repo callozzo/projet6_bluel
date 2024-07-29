@@ -20,6 +20,10 @@ async function fetchData(url) {
     }
 }
 
+async function getCategories() {
+    return await fetchData(categorieUrl);
+}
+
 // Fonction pour récupérer les images
 async function getImages() {
     return await fetchData(imgUrl);

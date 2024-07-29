@@ -55,8 +55,38 @@
 					<div class="galleryModal">
 					</div>
 					<div class="footerModal">
-						<a><boutton>Ajouter une photo</boutton></a>
+						<a><boutton id="addPhotoModal">Ajouter une photo</boutton></a>
 					</div>
+				</div>
+			</aside>
+			<aside id="modal2" class="modal">
+				<div class="modalBox">
+					<div id="alignementFa">
+						<i class="fa-solid fa-arrow-left"></i>
+						<i class="fa-solid fa-xmark"></i>
+					</div>
+					<h2>Ajout Photo</h2>
+					<div class="imageBox">
+						<i class="fa-regular fa-image"></i>
+						<boutton id="addImage"><p>+ Ajouter photo</p></boutton>
+						<p id="imageDimension">jpg, png : 4mo max</p>
+					</div>
+					<div>
+						<form action="#" method="post">
+							<div class="formulaire">
+								<label for="name">Titre</label>
+								<input type="text" name="name" id="name">
+								<label for="categorie">Catégorie</label>
+								<select name="categories" id="selectCategories">
+									<option></option>
+									<option>Objets</option>
+									<option>Appartements</option>
+									<option>Hotels & restaurants</option>
+								</select>
+							</div>
+							<input type="submit" value="Valider" id="validation">
+						</form>
+					</div>				
 				</div>
 			</aside>
 		</div>

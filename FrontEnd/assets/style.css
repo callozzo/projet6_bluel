@@ -269,6 +269,95 @@ main {
 		height: 119px;
 	}
 }
+#modal2 .modalBox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	#alignementFa {
+		display: flex;
+		.fa-arrow-left {
+			display: flex;
+			align-items: flex-start;
+			position: relative; left: -250px; top: 26px;
+			font-size: 21px;
+		}
+		.fa-xmark {
+			position: relative; left: 250px;
+		}
+	}
+	.imageBox {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-evenly;
+		background-color: #E8F1F6;
+		width: 420px;
+		height: 169px;
+		boutton {
+			color: #306685;
+			background-color: #CBD6DC;
+		}
+		.fa-image {
+			font-size: 76px;
+			color: #B9C5CC;
+		}
+		#imageDimension {
+			font-family: 'Work Sans';
+			font-size: 10px;
+			font-weight: 400;
+			color: #444444;
+		}
+	}
+	form {
+		display: flex;
+		flex-direction: column;
+		margin-top: 30px;
+		.formulaire {
+			display: flex;
+			flex-direction: column;
+			padding-bottom: 26px;
+			margin-bottom: 32px;
+			border-bottom: 1px solid #B3B3B3;
+		}
+		label {
+			font-family: 'Work Sans';
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 16.42px;
+			text-align: left;
+			margin-bottom: 10px;
+		}
+		input {
+			border: none;
+			box-shadow: 0px 4px 14px 0px #00000017;
+			width: 402px;
+			height: 51px;
+			margin-bottom: 21px;
+			padding-left: 16px;
+			font-family: 'Work Sans';
+			font-size: 14px;
+			font-weight: 400;
+			line-height: 16.42px;
+		}
+		select {
+			border: none;
+			box-shadow: 0px 4px 14px 0px #00000017;
+			width: 420px;
+			height: 51px;
+			margin-bottom: 21px;
+			padding-left: 16px;
+			font-family: 'Work Sans';
+			font-size: 14px;
+			font-weight: 400;
+			line-height: 16.42px;
+		}
+		#validation {
+			width: 237px;
+			height: 36px;
+			margin-top: 0;
+		}
+	}
+}
 #categorie {
 	display: flex;
 	justify-content: center;
