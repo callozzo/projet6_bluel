@@ -351,6 +351,9 @@ main {
 			font-weight: 400;
 			line-height: 16.42px;
 		}
+		option {
+			width: 20px;
+		}
 		#validation {
 			width: 237px;
 			height: 36px;

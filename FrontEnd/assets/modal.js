@@ -1,29 +1,27 @@
 //Récuperation de tout les id et class des modals
-let modal = document.getElementById('modal1');
+//Récuperation des id et classes de la premiere modal
+let modal1 = document.getElementById('modal1');
 let openModal = document.querySelector('.modal-button');
-let closeModal = document.querySelector('.fa-xmark');
+let closeModal = document.querySelectorAll('.fa-xmark');
 let galleryModal = document.querySelector('.galleryModal');
 let trashCan = document.querySelector('.fa-trash-can')
 let elemntArrayCopy = [];
+//Récuperation des id et classes de la deuxième modal
 let modal2 = document.getElementById('modal2');
 let addPhoto = document.getElementById('addPhotoModal');
 let previousModal = document.querySelector('.fa-arrow-left');
 let validationPhoto = document.getElementById('validation');
 let addImage = document.getElementById('addImage');
+let namePhoto = document.getElementById('name');
+let selectCategories = document.getElementById('selectCategories')
+
 
 
 //Ouverture de la première modal
 openModal.addEventListener('click', function(event) {
     event.preventDefault();
-    modal.style.display = 'flex';
+    modal1.style.display = 'flex';
 });
-
-//Fermeture de la première modal en cliquant soit sur la croix soit en dehors de la modal
-window.addEventListener('click', function(event) {
-    if(event.target === modal || event.target === closeModal ) {
-        modal.style.display = 'none';
-    }
-})
 
 //Ouverture de la deuxième modal
 addPhoto.addEventListener('click', function(event) {
@@ -31,11 +29,19 @@ addPhoto.addEventListener('click', function(event) {
     modal2.style.display = "flex";
 })
 
-//Pareil que la fonction ligne 21 avec la deuxième modal en plus
+//Fermeture des modals via la croix
+closeModal.forEach(button => {
+    button.addEventListener('click', function() {
+        modal1.style.display = 'none';
+        modal2.style.display = 'none';
+    });
+});
+
+//fermeture des modal en cliquant en dehors de celle-ci
 window.addEventListener ('click', function(event) {
-    if(event.target === modal2 || event.target === closeModal) {
+    if(event.target === modal1 || event.target === modal2) {
+        modal1.style.display = 'none';
         modal2.style.display = "none";
-        modal.style.display = 'none';
     }
 })
 
@@ -45,6 +51,15 @@ modal2.addEventListener('click', function(event) {
         modal2.style.display = "none";
     }
 })
+
+function validerPhoto() {
+    if(namePhoto === '...' && selectCategories === "Objets" || "Appartements" || "Hotels & restaurants") {
+        validationPhoto.style.backgroundColor = "#1D6154";
+    }else {
+        validationPhoto.style.backgroundColor = "#A7A7A7";
+        
+    }
+}
 
 //Fonction d'affichage des images sur la première modal, ajout de l'icon poubelle
 async function retrieveDataCopy(data) {
