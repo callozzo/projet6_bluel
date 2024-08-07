@@ -7,8 +7,7 @@ let mdpV = 'S0phie'
 
 formulaire.addEventListener('submit', function (e) {
     e.preventDefault()
-    console.log(email);
-    if(email === emailV && mdp === mdpV) {
+    if(email.value === emailV && mdp.value === mdpV) {
         document.location.href=".//index.html";
     }else {
         alert("Adresse mail ou mot de passe incorrect");
