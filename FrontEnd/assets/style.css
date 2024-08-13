@@ -293,9 +293,32 @@ main {
 		background-color: #E8F1F6;
 		width: 420px;
 		height: 169px;
-		boutton {
+		button {
+			text-align: center;
 			color: #306685;
 			background-color: #CBD6DC;
+			width: 173px;
+			height: 36px;
+			border-radius: 50px 50px 50px 50px;
+			border: none;
+			z-index: 0;
+			input {
+				position: absolute; top: 350px; left: 635px;
+				height: 36px;
+				width: 173px;
+				opacity: 0;
+				z-index: 1;
+			}
+			p {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative; right: 10px;
+				font-family: 'Work Sans';
+				width: 173px;
+				height: 36px;
+				z-index: 0;
+			}
 		}
 		.fa-image {
 			font-size: 76px;
@@ -350,14 +373,15 @@ main {
 			font-size: 14px;
 			font-weight: 400;
 			line-height: 16.42px;
-		}
-		option {
-			width: 20px;
+			option {
+				width: 20px;
+			}
 		}
 		#validation {
 			width: 237px;
 			height: 36px;
 			margin-top: 0;
+			background-color: #A7A7A7;
 		}
 	}
 }

@@ -13,9 +13,13 @@ let previousModal = document.querySelector('.fa-arrow-left');
 let validationPhoto = document.getElementById('validation');
 let addImage = document.getElementById('addImage');
 let namePhoto = document.getElementById('name');
-let selectCategories = document.getElementById('selectCategories')
+let selectCategories = document.getElementById('selectCategories');
+let imageConteneur = document.getElementById('imageBox');
+let ajoutImage = document.getElementById('ajoutImage');
+let formulaire = document.getElementById('myForm');
 
-
+namePhoto.addEventListener('input', validerPhoto);
+selectCategories.addEventListener('change', validerPhoto);
 
 //Ouverture de la première modal
 openModal.addEventListener('click', function(event) {
@@ -52,14 +56,20 @@ modal2.addEventListener('click', function(event) {
     }
 })
 
-function validerPhoto() {
-    if(namePhoto === '...' && selectCategories === "Objets" || "Appartements" || "Hotels & restaurants") {
+function validerPhoto(event) {
+    const namePhotoValue = namePhoto.value.trim(); // Récupère la valeur et supprime les espaces blancs
+    const selectedCategory = selectCategories.value;
+
+    if(namePhotoValue !== "" && selectedCategory !== "") {
         validationPhoto.style.backgroundColor = "#1D6154";
     }else {
         validationPhoto.style.backgroundColor = "#A7A7A7";
-        
+        alert("image, nom ou categorie non renseigner");
+        event.preventDefault();
     }
 }
+
+formulaire.addEventListener('submit', validerPhoto);
 
 //Fonction d'affichage des images sur la première modal, ajout de l'icon poubelle
 async function retrieveDataCopy(data) {
