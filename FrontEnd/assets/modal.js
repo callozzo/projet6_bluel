@@ -17,9 +17,7 @@ let selectCategories = document.getElementById('selectCategories');
 let imageConteneur = document.getElementById('imageBox');
 let ajoutImage = document.getElementById('ajoutImage');
 let formulaire = document.getElementById('myForm');
-
-namePhoto.addEventListener('input', validerPhoto);
-selectCategories.addEventListener('change', validerPhoto);
+let imagePreview = document.getElementById('imagePreview')
 
 //Ouverture de la première modal
 openModal.addEventListener('click', function(event) {
@@ -33,11 +31,20 @@ addPhoto.addEventListener('click', function(event) {
     modal2.style.display = "flex";
 })
 
+//Fonction pour le reset du formulaire
+function resetFormAndPreview() {
+    formulaire.reset();
+    imagePreview.style.display = 'none';
+    imagePreview.src = '';
+    validationPhoto.style.backgroundColor = "#A7A7A7";
+}
+
 //Fermeture des modals via la croix
 closeModal.forEach(button => {
     button.addEventListener('click', function() {
         modal1.style.display = 'none';
         modal2.style.display = 'none';
+        resetFormAndPreview();
     });
 });
 
@@ -46,6 +53,7 @@ window.addEventListener ('click', function(event) {
     if(event.target === modal1 || event.target === modal2) {
         modal1.style.display = 'none';
         modal2.style.display = "none";
+        resetFormAndPreview();
     }
 })
 
@@ -53,23 +61,43 @@ window.addEventListener ('click', function(event) {
 modal2.addEventListener('click', function(event) {
     if(event.target === previousModal) {
         modal2.style.display = "none";
+        resetFormAndPreview();
     }
 })
 
-function validerPhoto(event) {
-    const namePhotoValue = namePhoto.value.trim(); // Récupère la valeur et supprime les espaces blancs
-    const selectedCategory = selectCategories.value;
+//Event pour qu'au click sur le boutton l'input d'ajout de photo s'ouvre
+addImage.addEventListener('click', function() {
+    ajoutImage.click();
+})
 
-    if(namePhotoValue !== "" && selectedCategory !== "") {
-        validationPhoto.style.backgroundColor = "#1D6154";
-    }else {
-        validationPhoto.style.backgroundColor = "#A7A7A7";
-        alert("image, nom ou categorie non renseigner");
-        event.preventDefault();
+//Event pour l'affichage d'une preview de la photo selectionner
+ajoutImage.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
     }
-}
+});
 
-formulaire.addEventListener('submit', validerPhoto);
+//Event pour qu'il y ai un message d'alerte quand une des partie du formulaire n'est pas rempli
+formulaire.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let namePhotoValue = namePhoto.value;
+    let selectedCategories = selectCategories.value;
+    let ajoutImageValue = ajoutImage.files[0];
+
+    if(namePhotoValue.trim() === "" || selectedCategories === "" || !ajoutImageValue ){
+        alert("l'image, le nom ou la categories n'est pas indiqué")
+        validationPhoto.style.backgroundColor = "#A7A7A7";
+    } else {
+        validationPhoto.style.backgroundColor = "#1D6154"
+    }
+})
 
 //Fonction d'affichage des images sur la première modal, ajout de l'icon poubelle
 async function retrieveDataCopy(data) {

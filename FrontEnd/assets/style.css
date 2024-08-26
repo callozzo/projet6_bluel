@@ -302,13 +302,6 @@ main {
 			border-radius: 50px 50px 50px 50px;
 			border: none;
 			z-index: 0;
-			input {
-				position: absolute; top: 350px; left: 635px;
-				height: 36px;
-				width: 173px;
-				opacity: 0;
-				z-index: 1;
-			}
 			p {
 				display: flex;
 				align-items: center;
@@ -319,6 +312,14 @@ main {
 				height: 36px;
 				z-index: 0;
 			}
+		}
+		input {
+			display: none;
+		}
+		#imagePreview {
+			width: auto;
+			display: none;
+			position: relative; bottom: 122px;
 		}
 		.fa-image {
 			font-size: 76px;

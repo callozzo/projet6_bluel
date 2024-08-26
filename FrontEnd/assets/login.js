@@ -3,7 +3,7 @@ let mdp=document.getElementById('mdp');
 let form=document.getElementById('form')
 
 form.addEventListener('submit', (e) => {            // évenenement au clique du bouton envoyer //
- e.preventDefault()
+  e.preventDefault()
 
   emailcontent = email.value;            // Récupération adresse mail //
   mdpcontent = mdp.value;            // récupération mot de passe //
@@ -40,7 +40,4 @@ form.addEventListener('submit', (e) => {            // évenenement au clique du
     };
   })
   .catch((err) => console.log(err));
-
-
- 
 })
