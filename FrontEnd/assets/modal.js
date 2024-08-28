@@ -90,6 +90,7 @@ formulaire.addEventListener('submit', function(event) {
     let namePhotoValue = namePhoto.value;
     let selectedCategories = selectCategories.value;
     let ajoutImageValue = ajoutImage.files[0];
+    const token = sessionStorage.getItem("tokens");
 
     if(namePhotoValue.trim() === "" || selectedCategories === "" || !ajoutImageValue ){
         alert("l'image, le nom ou la categories n'est pas indiqué")
@@ -116,6 +117,30 @@ async function retrieveDataCopy(data) {
                 const trashIcon = document.createElement("i");
                 trashIcon.className = 'fa-solid fa-trash-can';
                 figure.appendChild(trashIcon);
+
+                //Event pour la suppression des images dans la modal via l'icone poubelle
+                trashIcon.addEventListener('click', async () => {
+
+                    const token = sessionStorage.getItem("tokens");
+
+                    try {
+                        const response = fetch(`http://localhost:5678/api/works/${element.id}`, {
+                            method: 'delete',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        if (response.ok) {
+                            console.log(`Élément avec l'ID ${element.id} supprimé.`);
+                            figure.remove(); // Supprime l'élément du DOM
+                        } else {
+                            console.error("Erreur lors de la suppression de l'élément :", response.statusText);
+                        }
+                    } catch (error) {
+                        console.error("Erreur lors de l'appel API pour la suppression :", error);
+                    }
+                });
 
                 console.log("Élément ajouté au DOM :", element);
             } else {

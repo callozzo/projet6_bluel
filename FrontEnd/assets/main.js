@@ -70,3 +70,12 @@ async function imageBase() {
 }
 
 imageBase();
+
+document.addEventListener('DOMContentLoaded', () => {
+    let editionMode = document.getElementById('editionMode');
+    let token = sessionStorage.getItem("tokens");
+
+    if (token && editionMode) {
+        editionMode.style.display = 'flex';
+    }
+});

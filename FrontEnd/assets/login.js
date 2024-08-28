@@ -1,43 +1,44 @@
-let email=document.getElementById('email');
-let mdp=document.getElementById('mdp');
-let form=document.getElementById('form')
+let email = document.getElementById('email');
+let mdp = document.getElementById('mdp');
+let form = document.getElementById('form');
 
-form.addEventListener('submit', (e) => {            // évenenement au clique du bouton envoyer //
-  e.preventDefault()
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-  emailcontent = email.value;            // Récupération adresse mail //
-  mdpcontent = mdp.value;            // récupération mot de passe //
+  const emailContent = email.value.trim();  // Récupération adresse mail //
+  const mdpContent = mdp.value.trim();      // Récupération mot de passe //
 
-  const connect = {            // Création du body a post //
-    email: emailcontent,
-    password: mdpcontent,
-  }
+  const connect = {  // Création du corps de la requête à envoyer //
+    email: emailContent,
+    password: mdpContent,
+  };
 
-  console.log(connect);
-  
-    fetch('http://localhost:5678/api/users/login', {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:5678",
-      },
-      mode : "cors",
-      method: "POST",
-      body : JSON.stringify(connect),
+  fetch('http://localhost:5678/api/users/login', {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    method: "POST",
+    body: JSON.stringify(connect),
   })
   .then((res) => {
-  return res.json();
+    if (!res.ok) {
+      throw new Error('Erreur lors de la connexion : ' + res.statusText);
+    }
+    return res.json();
   })
   .then((login) => {
-    var token = login.token;            // Récupération du token //
-    sessionStorage.setItem("tokens",token);            // Stockage du token dans la session //
-    var storageToken = sessionStorage.getItem("tokens");            // Renvoie page d'acceuil si connexion reussit //
+    const token = login.token;  // Récupération du token //
     if (token) {
-      document.location.href=".//index.html";
-    }
-    else
-    {
+      sessionStorage.setItem("tokens", token);  // Stockage du token dans la session //
+      console.log("Token stocké avec succès :", token);
+      window.location.href = "./index.html";  // Redirection vers la page d'accueil //
+    } else {
       alert("Adresse mail ou mot de passe incorrect");
-    };
+    }
   })
-  .catch((err) => console.log(err));
-})
+  .catch((err) => {
+    console.error("Erreur lors de la connexion :", err);
+    alert("Une erreur s'est produite lors de la tentative de connexion. Veuillez réessayer.");
+  });
+});

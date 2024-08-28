@@ -67,12 +67,11 @@ section {
 }
 
 #editionMode {
-	display: flex;
+	display: none;
 	justify-content: center;
 	align-items: center;
 	background-color: black;
 	height: 59px;
-	display: none;
 }
 #editionMode i {
 	width: 15px;
@@ -215,6 +214,7 @@ main {
 	}
 	.galleryModal {
 		display: flex;
+		align-content: flex-start;
 		justify-content: flex-start;
 		align-items: flex-start;
 		flex-wrap: wrap;
