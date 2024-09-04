@@ -67,6 +67,7 @@ async function imageBase() {
     const images = await getImages();
     elementArray = images; // Stocker les données récupérées dans elementArray
     retrieveData(images); // Afficher toutes les images quand on arrive sur la page
+    
 }
 
 imageBase();

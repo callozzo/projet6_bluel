@@ -1,8 +1,8 @@
 let email = document.getElementById('email');
 let mdp = document.getElementById('mdp');
-let form = document.getElementById('form');
+let logginForm = document.getElementById('form');
 
-form.addEventListener('submit', (e) => {
+logginForm.addEventListener('submit', function(e) {
   e.preventDefault();
 
   const emailContent = email.value.trim();  // Récupération adresse mail //

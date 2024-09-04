@@ -1,4 +1,3 @@
-//Récuperation de tout les id et class des modals
 //Récuperation des id et classes de la premiere modal
 let modal1 = document.getElementById('modal1');
 let openModal = document.querySelector('.modal-button');
@@ -29,6 +28,7 @@ openModal.addEventListener('click', function(event) {
 addPhoto.addEventListener('click', function(event) {
     event.preventDefault();
     modal2.style.display = "flex";
+    addImage.style.display = 'block';
 })
 
 //Fonction pour le reset du formulaire
@@ -78,27 +78,94 @@ ajoutImage.addEventListener('change', function(event) {
         reader.onload = function(e) {
             imagePreview.src = e.target.result;
             imagePreview.style.display = 'block';
+            addImage.style.display = 'none';
         };
         reader.readAsDataURL(file);
     }
 });
 
 //Event pour qu'il y ai un message d'alerte quand une des partie du formulaire n'est pas rempli
-formulaire.addEventListener('submit', function(event) {
+formulaire.addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    let namePhotoValue = namePhoto.value;
-    let selectedCategories = selectCategories.value;
-    let ajoutImageValue = ajoutImage.files[0];
-    const token = sessionStorage.getItem("tokens");
+    console.log("Le formulaire est bloqué, début du traitement...");
 
-    if(namePhotoValue.trim() === "" || selectedCategories === "" || !ajoutImageValue ){
-        alert("l'image, le nom ou la categories n'est pas indiqué")
-        validationPhoto.style.backgroundColor = "#A7A7A7";
-    } else {
-        validationPhoto.style.backgroundColor = "#1D6154"
-    }
-})
+    try {
+        let namePhotoValue = namePhoto.value.trim();
+        let selectedCategories = selectCategories.value;
+        let ajoutImageValue = ajoutImage.files[0];
+        const token = sessionStorage.getItem("tokens");
+
+        if (!ajoutImageValue) {
+            alert("L'image n'est pas indiqué");
+            validationPhoto.style.backgroundColor = "#A7A7A7";
+            return;
+        } else {
+            validationPhoto.style.backgroundColor = "#1D6154";
+        }
+
+        if (!namePhotoValue) {
+            alert("Le nom n'est pas indiqué");
+            validationPhoto.style.backgroundColor = "#A7A7A7";
+            return;
+        } else {
+            validationPhoto.style.backgroundColor = "#1D6154";
+        }
+
+        if (!selectedCategories) {
+            alert("La catégorie n'est pas indiqué");
+            validationPhoto.style.backgroundColor = "#A7A7A7";
+            return;
+        } else {
+            validationPhoto.style.backgroundColor = "#1D6154";
+        }
+
+        if (!token) {
+            alert("l'utilisateur doit se connecter pour pouvoir ajouter une image.")
+            console.error("Aucun token trouvé. L'utilisateur n'est peut-être pas authentifié.");
+            return;
+        }
+
+        //CategoryId renvoie l'Id dans formData pour que le fetch fonctionne
+        let categoryId;
+        if(selectedCategories === "Objets"){
+            categoryId = 1;
+        }else if(selectedCategories === "Appartements"){
+            categoryId = 2;
+        }else if(selectedCategories === "Hotels & restaurants"){
+            categoryId = 3;
+        }else {
+            alert("Catégorie sélectionneée non valide.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', ajoutImageValue);
+        formData.append('title', namePhotoValue);
+        formData.append('category', categoryId);        
+
+        const response = await fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log('Image créée, réponse API:', responseData);
+
+            return;
+        } else {
+            console.error("Erreur lors de l'ajout de l'élément :", response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error("Erreur lors de l'appel API pour l'ajout :", error);
+    }    
+});
+
+
 
 //Fonction d'affichage des images sur la première modal, ajout de l'icon poubelle
 async function retrieveDataCopy(data) {

@@ -319,7 +319,7 @@ main {
 		#imagePreview {
 			width: auto;
 			display: none;
-			position: relative; bottom: 122px;
+			position: relative; bottom: 86px;
 		}
 		.fa-image {
 			font-size: 76px;
