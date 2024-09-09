@@ -401,7 +401,7 @@ main {
 	color: #1D6154;
 	background-color: #FFFEF8;
 }
-#categorie button:active {
+.bouton-actif {
 	background-color: #1D6154;
 	color: #FFFFFF;
 }

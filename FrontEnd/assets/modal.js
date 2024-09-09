@@ -84,47 +84,45 @@ ajoutImage.addEventListener('change', function(event) {
     }
 });
 
-//Event pour qu'il y ai un message d'alerte quand une des partie du formulaire n'est pas rempli
+// Fonction pour vérifier les champs du formulaire et changer la couleur du bouton de validation
+function couleurBouton() {
+    let namePhotoValue = namePhoto.value.trim();
+    let selectedCategories = selectCategories.value;
+    let ajoutImageValue = ajoutImage.files[0];
+
+    if (namePhotoValue !== "" && selectedCategories !== "" && ajoutImageValue) {
+        validationPhoto.style.backgroundColor = "#1D6154"; // Vert si tous les champs sont remplis
+    } else {
+        validationPhoto.style.backgroundColor = "#A7A7A7"; // Gris si un ou plusieurs champs sont vides
+    }
+}
+
+// Ajouter des EventListeners pour vérifier les champs à chaque changement
+namePhoto.addEventListener('input', couleurBouton);
+selectCategories.addEventListener('change', couleurBouton);
+ajoutImage.addEventListener('change', couleurBouton);
+
+// Gestion de la soumission du formulaire
 formulaire.addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    console.log("Le formulaire est bloqué, début du traitement...");
+    let namePhotoValue = namePhoto.value.trim();
+    let selectedCategories = selectCategories.value;
+    let ajoutImageValue = ajoutImage.files[0];
+    const token = sessionStorage.getItem("tokens");
 
-    try {
-        let namePhotoValue = namePhoto.value.trim();
-        let selectedCategories = selectCategories.value;
-        let ajoutImageValue = ajoutImage.files[0];
-        const token = sessionStorage.getItem("tokens");
+    if (!namePhotoValue || !selectedCategories || !ajoutImageValue) {
+        validationPhoto.style.backgroundColor = "#A7A7A7"; // Gris si non rempli
+        alert("Veuillez remplir tous les champs obligatoires.");
+        return;
+    } else {
+        validationPhoto.style.backgroundColor = "#1D6154"; // Vert une fois rempli
+    }
 
-        if (!ajoutImageValue) {
-            alert("L'image n'est pas indiqué");
-            validationPhoto.style.backgroundColor = "#A7A7A7";
-            return;
-        } else {
-            validationPhoto.style.backgroundColor = "#1D6154";
-        }
-
-        if (!namePhotoValue) {
-            alert("Le nom n'est pas indiqué");
-            validationPhoto.style.backgroundColor = "#A7A7A7";
-            return;
-        } else {
-            validationPhoto.style.backgroundColor = "#1D6154";
-        }
-
-        if (!selectedCategories) {
-            alert("La catégorie n'est pas indiqué");
-            validationPhoto.style.backgroundColor = "#A7A7A7";
-            return;
-        } else {
-            validationPhoto.style.backgroundColor = "#1D6154";
-        }
-
-        if (!token) {
-            alert("l'utilisateur doit se connecter pour pouvoir ajouter une image.")
-            console.error("Aucun token trouvé. L'utilisateur n'est peut-être pas authentifié.");
-            return;
-        }
+    if (!token) {
+        console.error("Aucun token trouvé. L'utilisateur n'est peut-être pas authentifié.");
+        return;
+    }
 
         //CategoryId renvoie l'Id dans formData pour que le fetch fonctionne
         let categoryId;
@@ -144,7 +142,8 @@ formulaire.addEventListener('submit', async function(event) {
         formData.append('title', namePhotoValue);
         formData.append('category', categoryId);        
 
-        const response = await fetch('http://localhost:5678/api/works', {
+        try{
+            const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -156,6 +155,12 @@ formulaire.addEventListener('submit', async function(event) {
             const responseData = await response.json();
             console.log('Image créée, réponse API:', responseData);
 
+            ajoutImageData(responseData);
+            elementArray.push(responseData); // Ajout de l'image dans elementArray 
+            retrieveData(elementArray); // Appel de retrieveData pour afficher la nouvel image
+
+            formulaire.reset();
+
             return;
         } else {
             console.error("Erreur lors de l'ajout de l'élément :", response.status, response.statusText);
@@ -165,64 +170,74 @@ formulaire.addEventListener('submit', async function(event) {
     }    
 });
 
+// Fonction pour ajouter la nouvelle image dans la galerie
+function ajoutImageData(imageData) {
+    const figure = document.createElement("figure");
+    galleryModal.appendChild(figure);
+    figure.id = imageData.id;
 
+    const imageApi = document.createElement("img");
+    imageApi.src = imageData.imageUrl;
+    figure.appendChild(imageApi);
 
-//Fonction d'affichage des images sur la première modal, ajout de l'icon poubelle
+    const trashIcon = document.createElement("i");
+    trashIcon.className = 'fa-solid fa-trash-can';
+    figure.appendChild(trashIcon);
+
+    // Suppression via l'icone poubelle
+    trashIcon.addEventListener('click', async () => {
+        const token = sessionStorage.getItem("tokens");
+
+        try {
+            const response = await fetch(`http://localhost:5678/api/works/${imageData.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                console.log(`Élément avec l'ID ${imageData.id} supprimé.`);
+                figure.remove(); // Supprime l'élément du DOM
+
+                 // Supprimer l'élément de elementArray
+            const index = elementArray.findIndex(item => item.id === imageData.id);
+            if (index !== -1) {
+                elementArray.splice(index, 1); // Supprimer l'élément du tableau
+                console.log(`Élément avec l'ID ${imageData.id} supprimé de elementArray.`);
+            }
+
+            // Appeler retrieveData pour mettre à jour le DOM après la suppression
+            retrieveData(elementArray);
+                
+            } else {
+                console.error("Erreur lors de la suppression de l'élément :", response.statusText);
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'appel API pour la suppression :", error);
+        }
+    });
+
+    console.log("Élément ajouté au DOM :", imageData);
+}
+
+// Fonction d'affichage des images sur la première modal, avec icônes de suppression
 async function retrieveDataCopy(data) {
     try {
-        console.log("Données traitées :", data);
         data.forEach(element => {
-            if (element && element.id && element.imageUrl && element.title && element.categoryId) {
-                const figure = document.createElement("figure");
-                galleryModal.appendChild(figure);
-                figure.id = element.id;
-
-                const imageApi = document.createElement("img");
-                imageApi.src = element.imageUrl;
-                figure.appendChild(imageApi);
-
-                const trashIcon = document.createElement("i");
-                trashIcon.className = 'fa-solid fa-trash-can';
-                figure.appendChild(trashIcon);
-
-                //Event pour la suppression des images dans la modal via l'icone poubelle
-                trashIcon.addEventListener('click', async () => {
-
-                    const token = sessionStorage.getItem("tokens");
-
-                    try {
-                        const response = fetch(`http://localhost:5678/api/works/${element.id}`, {
-                            method: 'delete',
-                            headers: {
-                                'Authorization': `Bearer ${token}`,
-                                'Content-Type': 'application/json'
-                            }
-                        });
-                        if (response.ok) {
-                            console.log(`Élément avec l'ID ${element.id} supprimé.`);
-                            figure.remove(); // Supprime l'élément du DOM
-                        } else {
-                            console.error("Erreur lors de la suppression de l'élément :", response.statusText);
-                        }
-                    } catch (error) {
-                        console.error("Erreur lors de l'appel API pour la suppression :", error);
-                    }
-                });
-
-                console.log("Élément ajouté au DOM :", element);
-            } else {
-                console.warn("Élément manquant de propriétés nécessaires :", element);
-            }
+            ajoutImageData(element); // Utilisation de la fonction dynamique
         });
     } catch (error) {
         console.error("Erreur lors de la création des éléments du DOM :", error);
     }
 }
 
+// Fonction pour récupérer et afficher les images existantes
 async function imageBaseCopy() {
     const images = await getImages();
-    elementArrayCopy = images; // Stocker les données récupérées dans elementArray
-    retrieveDataCopy(images); // Afficher toutes les images quand on arrive sur la modal
+    retrieveDataCopy(images); // Afficher toutes les images récupérées
 }
 
-imageBaseCopy()
+// Lancement de la récupération des images au chargement
+imageBaseCopy();
