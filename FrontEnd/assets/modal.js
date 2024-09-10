@@ -160,8 +160,10 @@ formulaire.addEventListener('submit', async function(event) {
             retrieveData(elementArray); // Appel de retrieveData pour afficher la nouvel image
 
             formulaire.reset();
+            modal1.style.display = 'none';
+            modal2.style.display = "none";
+            resetFormAndPreview();
 
-            return;
         } else {
             console.error("Erreur lors de l'ajout de l'élément :", response.status, response.statusText);
         }
@@ -171,7 +173,7 @@ formulaire.addEventListener('submit', async function(event) {
 });
 
 // Fonction pour ajouter la nouvelle image dans la galerie
-function ajoutImageData(imageData) {
+async function ajoutImageData(imageData) {
     const figure = document.createElement("figure");
     galleryModal.appendChild(figure);
     figure.id = imageData.id;
@@ -201,7 +203,7 @@ function ajoutImageData(imageData) {
                 console.log(`Élément avec l'ID ${imageData.id} supprimé.`);
                 figure.remove(); // Supprime l'élément du DOM
 
-                 // Supprimer l'élément de elementArray
+            // Supprimer l'élément de elementArray
             const index = elementArray.findIndex(item => item.id === imageData.id);
             if (index !== -1) {
                 elementArray.splice(index, 1); // Supprimer l'élément du tableau
