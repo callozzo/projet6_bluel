@@ -125,6 +125,11 @@ nav li a {
 	font-weight: bold;
 }
 
+#logout {
+	display: none;
+	font-weight: bold;
+}
+
 li:hover {
 	color: #B1663C;
 }
@@ -170,7 +175,7 @@ main {
 	margin-right: 10px;
 }
 #project a {
-	display: flex;
+	display: none;
 	color: black;
 	text-decoration: none;
 }
@@ -400,7 +405,11 @@ main {
 	margin: 0 5px 50px 5px;
 	color: #1D6154;
 	background-color: #FFFEF8;
+	#tous {
+	background-color: #1D6154;
+	}
 }
+
 .bouton-actif {
 	background-color: #1D6154;
 	color: #FFFFFF;
@@ -483,4 +492,3 @@ footer nav ul {
 	padding: 24px 0 20px 0;
 	background-color: #FFFFFF;
 }
-

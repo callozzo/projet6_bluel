@@ -36,6 +36,8 @@ function resetFormAndPreview() {
     formulaire.reset();
     imagePreview.style.display = 'none';
     imagePreview.src = '';
+    ajoutImage.value = '';
+    ajoutImage.src = '';
     validationPhoto.style.backgroundColor = "#A7A7A7";
 }
 

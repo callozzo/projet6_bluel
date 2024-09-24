@@ -1,8 +1,40 @@
 // Récupération des boutons des filtres
 const boutonTous = document.getElementById("tous");
-const boutonObjets = document.getElementById("objets");
-const boutonApparts = document.getElementById("appartements");
-const boutonHotels = document.getElementById("hotels");
+
+// Ajout d'une fonction pour la recuperation des categories
+async function retrieveCategories(data) {
+    let parentElement = document.getElementById("categorie")
+    try {
+        data.forEach(element => {
+            if (element && element.id && element.name) {
+                const button = document.createElement("button");
+                parentElement.appendChild(button);
+                button.id = element.name;
+                button.innerHTML = element.name
+
+                // Event pour filtrer en fonction des ids des boutons plus changement de couleurs
+                button.addEventListener('click', () => {
+                    filtres(element.id);
+                    changerCouleurBoutonActif(button);
+                })
+            } else {
+                console.warn("Élément manquant de propriétés nécessaires :", element);
+            }
+        });
+    } catch (error) {
+        console.error("Erreur lors de la création des éléments du DOM :", error);
+    }
+}
+
+// Appel de la fonction pour recuperer les categories et les stocker dans le tableau
+async function categorieBase() {
+    let categorieArray = []
+    const categorie = await getCategories();
+    categorieArray = categorie;
+    retrieveCategories(categorie);
+}
+
+categorieBase();
 
 // Fonction pour filtrer les images par catégorie
 function filtres(value) {
@@ -41,20 +73,13 @@ function changerCouleurBoutonActif(bouton) {
     bouton.style.color = '#FFFFFF'; 
 }
 
-// Ajout d'event pour les filtres et le changement de couleur pour chaque bouttons
+window.addEventListener('DOMContentLoaded', () => {
+    changerCouleurBoutonActif(boutonTous);
+})
+
+// Ajout d'event pour les filtres et le changement de couleur pour le bouton Tous
 boutonTous.addEventListener('click', () => {
     imageBase();
     changerCouleurBoutonActif(boutonTous);
 });
-boutonObjets.addEventListener('click', () => {
-    filtres(1);
-    changerCouleurBoutonActif(boutonObjets); 
-});
-boutonApparts.addEventListener('click', () => {
-    filtres(2); 
-    changerCouleurBoutonActif(boutonApparts); 
-});
-boutonHotels.addEventListener('click', () => {
-    filtres(3);
-    changerCouleurBoutonActif(boutonHotels); 
-});
+
