@@ -75,14 +75,14 @@ imageBase();
 // Changement sur la page d'accueil du login/logout et des modifications de projets
 document.addEventListener('DOMContentLoaded', () => {
     let editionMode = document.getElementById('editionMode');
-    let projet = document.querySelector('.modal-button');
+    let modifier = document.querySelector('.modifier');
     let login = document.getElementById('login');
     let logout = document.getElementById('logout');
     let token = sessionStorage.getItem("tokens");
 
     if (token && editionMode) {
         editionMode.style.display = 'flex';
-        projet.style.display = 'flex';
+        modifier.style.display = 'flex';
         login.style.display = 'none';
         logout.style.display = 'flex';
     }

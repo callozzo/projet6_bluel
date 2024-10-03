@@ -175,7 +175,21 @@ main {
 	margin-right: 10px;
 }
 #project a {
+	display: flex;
+	text-decoration: none;
+}
+#project .modifier {
 	display: none;
+	color: black;
+	text-decoration: none;
+}
+
+.modifier i {
+	color: black;
+	text-decoration: none;
+}
+
+.modifier p {
 	color: black;
 	text-decoration: none;
 }
@@ -232,7 +246,7 @@ main {
 	}
 	figure {
 		height: 102px;
-		width: 76px;	
+		width: 76px;
 	}
 	img {
 		display: flex;
